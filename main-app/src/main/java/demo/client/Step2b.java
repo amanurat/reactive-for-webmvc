@@ -1,19 +1,18 @@
 package demo.client;
 
+import demo.Person;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import demo.Person;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Mono;
-
-import org.springframework.web.reactive.function.client.WebClient;
-
+@Slf4j
 public class Step2b {
 
 	private static final Logger logger = LoggerFactory.getLogger(Step2b.class);
@@ -29,7 +28,7 @@ public class Step2b {
 
 		List<Mono<Person>> list = new ArrayList<>();
 		for (int i = 1; i <= 3; i++) {
-			System.out.println("Getting " + i);
+			log.info("Getting " + i);
 			list.add(client.get().uri("/person/{id}", i)
 					.retrieve()
 					.bodyToMono(Person.class)

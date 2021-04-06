@@ -1,16 +1,17 @@
 package demo.client;
 
+import demo.Hobby;
+import demo.Person;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+
 import java.time.Duration;
 import java.time.Instant;
 
-import demo.Hobby;
-import demo.Person;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Flux;
-
-import org.springframework.web.reactive.function.client.WebClient;
-
+@Slf4j
 public class Step2e {
 
 	private static final Logger logger = LoggerFactory.getLogger(Step2e.class);
@@ -23,17 +24,17 @@ public class Step2e {
 		Instant start = Instant.now();
 
 		Flux.range(1, 3)
-				.doOnNext(i -> System.out.println("Getting id=" + i))
+				.doOnNext(i -> log.info("Getting id=" + i))
 				.flatMap(i ->
 						client.get().uri("/person/{id}", i)
 								.retrieve()
 								.bodyToMono(Person.class))
-				.doOnNext(i -> System.out.println("Getting hobbies for id=" + i))
+				.doOnNext(i -> log.info("Getting hobbies for id=" + i))
 				.flatMap(person ->
 						client.get().uri("/person/{id}/hobby", person.getId())
 								.retrieve()
 								.bodyToMono(Hobby.class))
-				.doOnNext(hobby -> System.out.println("Got " + hobby))
+				.doOnNext(hobby -> log.info("Got " + hobby))
 				.blockLast();
 
 		logTime(start);

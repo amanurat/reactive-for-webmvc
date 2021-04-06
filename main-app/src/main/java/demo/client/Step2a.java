@@ -1,14 +1,15 @@
 package demo.client;
 
+import demo.Person;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.reactive.function.client.WebClient;
+
 import java.time.Duration;
 import java.time.Instant;
 
-import demo.Person;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.web.reactive.function.client.WebClient;
-
+@Slf4j
 public class Step2a {
 
 	private static final Logger logger = LoggerFactory.getLogger(Step2a.class);
@@ -21,7 +22,7 @@ public class Step2a {
 		Instant start = Instant.now();
 
 		for (int i = 1; i <= 3; i++) {
-			System.out.println("Getting id=" + i);
+			log.info("Getting id=" + i);
 			client.get().uri("/person/{id}", i).retrieve().bodyToMono(Person.class);
 		}
 

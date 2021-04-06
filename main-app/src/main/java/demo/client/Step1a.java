@@ -1,14 +1,13 @@
 package demo.client;
 
-import java.time.Duration;
-import java.time.Instant;
-
 import demo.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.DefaultUriBuilderFactory;
+
+import java.time.Duration;
+import java.time.Instant;
 
 public class Step1a {
 
@@ -27,7 +26,7 @@ public class Step1a {
 		Instant start = Instant.now();
 
 		for (int i = 1; i <= 3; i++) {
-			System.out.println("Getting id=" + i);
+			logger.info("Getting id=" + i);
 			Person person = restTemplate.getForObject("/person/{id}", Person.class, i);
 			System.out.println("Got " + person);
 		}

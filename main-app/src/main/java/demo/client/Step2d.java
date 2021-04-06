@@ -1,17 +1,18 @@
 package demo.client;
 
-import java.time.Duration;
-import java.time.Instant;
-
 import demo.Person;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Flux;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 
+import java.time.Duration;
+import java.time.Instant;
+
+@Slf4j
 public class Step2d {
 
 	private static final Logger logger = LoggerFactory.getLogger(Step2d.class);
@@ -29,10 +30,10 @@ public class Step2d {
 				.flatMap(response -> {
 					HttpStatus status = response.statusCode();
 					HttpHeaders headers = response.headers().asHttpHeaders();
-					System.out.println(status + " " + headers);
+					log.info(status + " " + headers);
 					return response.bodyToMono(Person.class);
 				})
-				.doOnNext(person -> System.out.println("Got " + person))
+				.doOnNext(person -> log.info("Got " + person))
 				.blockLast();
 
 		logTime(start);

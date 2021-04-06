@@ -1,15 +1,16 @@
 package demo.client;
 
+import demo.Person;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
+
 import java.time.Duration;
 import java.time.Instant;
 
-import demo.Person;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import reactor.core.publisher.Flux;
-
-import org.springframework.web.reactive.function.client.WebClient;
-
+@Slf4j
 public class Step2c {
 
 	private static final Logger logger = LoggerFactory.getLogger(Step2c.class);
@@ -22,9 +23,9 @@ public class Step2c {
 		Instant start = Instant.now();
 
 		Flux.range(1, 3)
-				.doOnNext(i -> System.out.println("Getting id=" + i))
+				.doOnNext(i -> log.info("Getting id=" + i))
 				.flatMap(i -> client.get().uri("/person/{id}", i).retrieve().bodyToMono(Person.class))
-				.doOnNext(person -> System.out.println("Got " + person))
+				.doOnNext(person -> log.info("Got " + person))
 				.blockLast();
 
 		logTime(start);
