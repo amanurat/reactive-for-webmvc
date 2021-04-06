@@ -32,7 +32,7 @@ public class Step2b {
 			list.add(client.get().uri("/person/{id}", i)
 					.retrieve()
 					.bodyToMono(Person.class)
-					.doOnNext(person -> System.out.println("Got " + person)));
+					.doOnNext(person -> log.info("Got " + person)));
 		}
 		Mono.when(list).block();
 
